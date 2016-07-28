@@ -1,5 +1,6 @@
 package com.petVet.servlets;
 
+import com.petVet.data.DataCacheJson;
 import com.petVet.entities.Owner;
 
 import javax.servlet.RequestDispatcher;
@@ -29,14 +30,38 @@ public class CustomerController extends HttpServlet {
         } else if(jspName.equalsIgnoreCase("editPet")) {
             // TODO: do something here
         } else if(jspName.equalsIgnoreCase("viewAllOwners")) {
-            // TODO: do something here
-        } else if(jspName.equalsIgnoreCase("viewOwner")) {
-            // TODO: do something here
+            ArrayList<Owner> owners = DataCacheJson.getOwners();
+            request.setAttribute("owners",owners);
+        } else if(jspName.equalsIgnoreCase("viewOwner") || jspName.equalsIgnoreCase("editOwner")) {
+            String ownerId = request.getParameter("ownerid");
+            Owner owner = DataCacheJson.getOwner(ownerId);
+            request.setAttribute("owner",owner);
         } else if(jspName.equalsIgnoreCase("addNewOwner")) {
             // TODO: do something here
-        } else if(jspName.equalsIgnoreCase("editOwner")) {
-            // TODO: do something here
+        } else if(jspName.equalsIgnoreCase("saveNewOwner")) {
+            Owner saveNewOwner = new Owner();
+            saveNewOwner.setFirstName(request.getParameter("firstname"));
+            saveNewOwner.setLastName(request.getParameter("lastname"));
+            saveNewOwner.setPhone(request.getParameter("phone"));
+            saveNewOwner.setAddress(request.getParameter("address"));
+            saveNewOwner.setOwnerId(System.currentTimeMillis()+"-"+saveNewOwner.getFirstName().charAt(0)+saveNewOwner.getLastName().charAt(0));
+            DataCacheJson.setOwner(saveNewOwner);
+            jspName = "viewAllOwners";
+        } else if (jspName.equalsIgnoreCase("updateOwner")) {
+            String ownerId = request.getParameter("ownerid");
+            Owner updateOwner = DataCacheJson.getOwner(ownerId);
+            updateOwner.setFirstName(request.getParameter("firstname"));
+            updateOwner.setLastName(request.getParameter("lastname"));
+            updateOwner.setPhone(request.getParameter("phone"));
+            updateOwner.setAddress(request.getParameter("address"));
+            DataCacheJson.setOwner(updateOwner);
+            jspName = "viewAllOwners";
         }
+//        else if(jspName.equalsIgnoreCase("editOwner")) {
+//            String ownerId = request.getParameter("ownerid");
+//            Owner owner = DataCacheJson.getOwner(ownerId);
+//            request.setAttribute("owner",owner);
+//        }
 
         RequestDispatcher view = request.getRequestDispatcher("/customers/"+jspName+".jsp");
         view.forward(request, response);

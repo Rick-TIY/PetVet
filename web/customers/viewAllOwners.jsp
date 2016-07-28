@@ -16,9 +16,13 @@ View All Owners
         <th>Phone</th>
         <th>Address</th>
     </tr>
-    <c:forEach items="${owners}" var="owner">
+    <c:forEach var="owner" items="${owners}">
         <tr>
-            <td><a href="/mvc_cust/viewOwner?ownerid=${owner.ownerId}"><c:out value="${owner.ownerId}" /></a></td>
+            <td>
+                <a href="/mvc_cust/viewOwner?ownerid=${owner.ownerId}">
+                    <c:out value="${owner.ownerId}" />
+                </a>
+            </td>
             <td><c:out value="${owner.firstName}" /></td>
             <td><c:out value="${owner.lastName}" /></td>
             <td><c:out value="${owner.phone}" /></td>
