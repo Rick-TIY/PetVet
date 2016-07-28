@@ -7,5 +7,7 @@
   <a href="/mvc_cust/viewAllOwners">All Owners</a>
   <br>
   <a href="/mvc_cust/addNewOwner">Add New Owner</a>
+  <br>
+  <a href="/mvc_cust/addNewPet">Add New Pet</a>
   </body>
 </html>

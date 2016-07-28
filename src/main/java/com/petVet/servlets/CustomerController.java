@@ -2,6 +2,7 @@ package com.petVet.servlets;
 
 import com.petVet.data.DataCacheJson;
 import com.petVet.entities.Owner;
+import com.petVet.entities.Pet;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -26,7 +27,15 @@ public class CustomerController extends HttpServlet {
         } else if(jspName.equalsIgnoreCase("viewPet")) {
             // TODO: do something here
         } else if(jspName.equalsIgnoreCase("addNewPet")) {
-            // TODO: do something here
+            request.setAttribute("petTypes", Pet.PetType.values());
+        } else if(jspName.equalsIgnoreCase("saveNewPet")) {
+            Pet saveNewPet = new Pet();
+            saveNewPet.setName(request.getParameter("name"));
+            saveNewPet.setOwnerId(request.getParameter("ownerid"));
+            saveNewPet.setPetType(Pet.PetType.valueOf(request.getParameter("pettype")));
+            saveNewPet.setPetId(System.currentTimeMillis()+"-"+saveNewPet.getName().charAt(0));
+            DataCacheJson.setPet(saveNewPet);
+            jspName = "viewAllPets";
         } else if(jspName.equalsIgnoreCase("editPet")) {
             // TODO: do something here
         } else if(jspName.equalsIgnoreCase("viewAllOwners")) {
